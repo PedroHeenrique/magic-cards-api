@@ -1,0 +1,3 @@
+br\com\magiccards\api\player\PlayerController.class
+br\com\magiccards\api\cards\CardsController.class
+br\com\magiccards\MagicCardsApplication.class
