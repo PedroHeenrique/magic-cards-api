@@ -15,9 +15,10 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, length = 50)
+    @Column(unique = true, length = 50, nullable = false)
     private String username;
-    private String codeAccess;
+    @Column(length = 20, nullable = false)
+    private String password;
 
 
     public Long getId() {
@@ -36,12 +37,12 @@ public class Player {
         this.username = username;
     }
 
-    public String getCodeAccess() {
-        return codeAccess;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCodeAccess(String codeAccess) {
-        this.codeAccess = codeAccess;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -49,11 +50,11 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return Objects.equals(getUsername(), player.getUsername()) && Objects.equals(getCodeAccess(), player.getCodeAccess());
+        return Objects.equals(getUsername(), player.getUsername()) && Objects.equals(getPassword(), player.getPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getCodeAccess());
+        return Objects.hash(getUsername(), getPassword());
     }
 }
