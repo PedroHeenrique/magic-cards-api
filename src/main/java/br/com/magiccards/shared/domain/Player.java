@@ -1,6 +1,7 @@
 package br.com.magiccards.shared.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"id","password"})
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
