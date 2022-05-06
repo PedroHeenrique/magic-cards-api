@@ -1,7 +1,7 @@
 package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.domain.Player;
-import br.com.magiccards.shared.dto.NewPlayer;
+import br.com.magiccards.shared.dto.NewPlayerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class PlayerService {
     public PlayerService(PlayerRepository playerRepository){
         this.playerRepository = playerRepository;
     }
-    public Player savePlayer(NewPlayer player) throws PlayerAlreadyExistException {
+    public Player savePlayer(NewPlayerForm player) throws PlayerAlreadyExistException {
         Optional<Player> optionalPlayer = playerRepository.findByUsername(player.getUsername());
 
         if(optionalPlayer.isPresent()){

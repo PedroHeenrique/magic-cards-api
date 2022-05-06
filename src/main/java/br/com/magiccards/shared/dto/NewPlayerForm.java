@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewPlayer {
+public class NewPlayerForm {
     @NotBlank
     private String username;
     @NotBlank
