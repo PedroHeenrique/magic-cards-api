@@ -27,16 +27,22 @@ public class PlayerControllerTest {
     @MockBean
     private  PlayerService playerService;
 
-    private final String jsonPlayerRegister = "{\n" +
-            "    \"username\":\"UserTest\",\n" +
+    private final String jsonNewPlayerRegister = "{\n" +
+            "    \"username\":\"PlayerTest\",\n" +
             "    \"password\":\"123456\"\n" +
             "}";
 
     private static Player playerAlreadyRegistered;
+    private static NewPlayerForm newPlayerFormAlreadyExist;
 
     @BeforeAll
     private static void buildNewPlayer(){
         playerAlreadyRegistered = Player.builder()
+                .username("PlayerTest")
+                .password("123456")
+                .build();
+
+        newPlayerFormAlreadyExist = NewPlayerForm.builder()
                 .username("PlayerTest")
                 .password("123456")
                 .build();
@@ -48,11 +54,24 @@ public class PlayerControllerTest {
         when(playerService.savePlayer(any(NewPlayerForm.class))).thenReturn(playerAlreadyRegistered);
         mockMvc.perform(post("/player")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonPlayerRegister)
+                .content(jsonNewPlayerRegister)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.username").value("PlayerTest"));
 
+    }
+
+    @Test
+    public void shouldReturn400WhenSavePlayerAlreadyExist()throws Exception{
+        when(playerService.savePlayer(newPlayerFormAlreadyExist)).thenThrow(new PlayerAlreadyExistException());
+        mockMvc.perform(post("/player")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonNewPlayerRegister)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.campo").value("username"))
+                .andExpect(jsonPath("$.erro").value("Ja existe um jogador com esse username"));
     }
 }
