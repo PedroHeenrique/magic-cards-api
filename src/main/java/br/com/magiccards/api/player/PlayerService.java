@@ -1,7 +1,7 @@
 package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.domain.Player;
-import br.com.magiccards.shared.dto.NewPlayerForm;
+import br.com.magiccards.shared.form.NewPlayerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
