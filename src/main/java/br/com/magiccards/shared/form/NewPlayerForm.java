@@ -1,4 +1,4 @@
-package br.com.magiccards.shared.dto;
+package br.com.magiccards.shared.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
