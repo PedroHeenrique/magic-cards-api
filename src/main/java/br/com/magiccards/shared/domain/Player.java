@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 @Entity
 @Builder
@@ -16,19 +17,23 @@ import java.util.Objects;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_player")
+    private Long idPlayer;
     @Column(unique = true, length = 50, nullable = false)
     private String username;
     @Column(length = 20, nullable = false)
     private String password;
 
+    @Column(name = "id_list_card")
+    @OneToMany(mappedBy = "player")
+    private List<ListCards> listCards;
 
-    public Long getId() {
-        return id;
+    public Long getIdPlayer() {
+        return idPlayer;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdPlayer(Long idPlayer) {
+        this.idPlayer = idPlayer;
     }
 
     public String getUsername() {
@@ -46,6 +51,7 @@ public class Player {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     @Override
     public boolean equals(Object o) {
