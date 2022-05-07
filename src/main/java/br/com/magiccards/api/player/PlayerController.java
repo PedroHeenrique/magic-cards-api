@@ -1,6 +1,8 @@
 package br.com.magiccards.api.player;
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.dto.NewPlayerForm;
+import br.com.magiccards.shared.swagger.SwaggerConfigurations;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/player")
+@Api(tags = {SwaggerConfigurations.PLAYER_TAG})
 public class PlayerController {
     private final PlayerService playerService;
     @Autowired
@@ -20,8 +23,15 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @PostMapping
-    public ResponseEntity<Player> registerNewPlayer(@RequestBody @Valid NewPlayerForm  newPlayerForm) throws PlayerAlreadyExistException {
+    @ApiOperation(value = "Registra um novo jogador")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Jogador registrado com sucesso"),
+            @ApiResponse(code = 400, message = "Valores inválido  ou jogador ja cadastrado"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
+    @PostMapping(consumes = "application/json",produces = "application/json")
+    public ResponseEntity<Player> registerNewPlayer(@ApiParam(value = "email e senha",required = true)
+            @RequestBody @Valid NewPlayerForm  newPlayerForm) throws PlayerAlreadyExistException {
         try{
              Player playerSave = playerService.savePlayer(newPlayerForm);
             return ResponseEntity.status(HttpStatus.CREATED).body(playerSave);
