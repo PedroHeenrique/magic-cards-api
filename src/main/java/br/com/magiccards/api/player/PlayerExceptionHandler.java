@@ -1,6 +1,7 @@
 package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.dto.ErroDto;
+import br.com.magiccards.shared.exception.player.PlayerAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

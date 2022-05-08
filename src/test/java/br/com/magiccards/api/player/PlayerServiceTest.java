@@ -1,7 +1,8 @@
 package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.domain.Player;
-import br.com.magiccards.shared.form.NewPlayerForm;
+import br.com.magiccards.shared.exception.player.PlayerAlreadyExistException;
+import jdk.jshell.execution.Util;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
