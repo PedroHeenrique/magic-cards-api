@@ -1,5 +1,6 @@
 package br.com.magiccards.shared.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -9,15 +10,21 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Card {
+@JsonIgnoreProperties({"listCards"})
+public class Card implements Serializable {
+    private static final long serialVersionUID = -1798070786893154676L;
     @Id
+    @Column(name = "id_card")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCard;
+
     private String name;
     @Positive(message = "informe uma edição valida")
     private Integer edition;
@@ -83,6 +90,14 @@ public class Card {
 
     public void setQuantityOfThisCard(Long quantityOfThisCard) {
         this.quantityOfThisCard = quantityOfThisCard;
+    }
+
+    public ListCards getListCards() {
+        return listCards;
+    }
+
+    public void setListCards(ListCards listCards) {
+        this.listCards = listCards;
     }
 
     @Override

@@ -7,26 +7,33 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"id","password"})
-public class Player {
+@JsonIgnoreProperties({"idPlayer","password","listCards"})
+public class Player implements Serializable {
+
+    private static final long serialVersionUID = -1798070786993154676L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_player")
     private Long idPlayer;
+
     @Column(unique = true, length = 50, nullable = false)
     private String username;
-    @Column(length = 20, nullable = false)
+
+    @Column(nullable = false)
     private String password;
 
+
     @Column(name = "id_list_card")
-    @OneToMany(mappedBy = "player")
-    private List<ListCards> listCards;
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private Set<ListCards> listCard;
 
     public Long getIdPlayer() {
         return idPlayer;
@@ -52,6 +59,13 @@ public class Player {
         this.password = password;
     }
 
+    public Set<ListCards> getListCards() {
+        return listCard;
+    }
+
+    public void setListCards(Set<ListCards> listCards) {
+        this.listCard = listCards;
+    }
 
     @Override
     public boolean equals(Object o) {
