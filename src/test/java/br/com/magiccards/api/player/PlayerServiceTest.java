@@ -2,7 +2,6 @@ package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.exception.player.PlayerAlreadyExistException;
-import jdk.jshell.execution.Util;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Objects;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,47 +23,45 @@ public class PlayerServiceTest {
     private PlayerService playerService;
 
     @Mock
-    private PlayerRepository playerRepository;
+    private PlayerRepository playerRepositoryMock;
 
-    private static NewPlayerForm newPlayerForm;
-
-    private static Player playerAlreadyRegistered;
+    private static Player playerToSave;
 
     @BeforeAll
     public static void buildPlayer(){
-
-        newPlayerForm = NewPlayerForm.builder()
+        playerToSave = Player.builder()
                 .username("PlayerTest")
                 .password("123456")
                 .build();
-
-        playerAlreadyRegistered = Player.builder()
-                .username("PlayerTest")
-                .password("123456")
-                .build();
-
     }
 
     @Test
     @DisplayName("Deve registrar um novo jogador caso nao exista na base")
     public void shouldSaveNewPlayer() throws PlayerAlreadyExistException {
-        when(playerService.savePlayer(newPlayerForm)).thenReturn(playerAlreadyRegistered);
-        verify(playerRepository,times(1)).findByUsername(newPlayerForm.getUsername());
-        Player playerSave = playerService.savePlayer(newPlayerForm);
-        verify(playerRepository,times(1)).save(playerAlreadyRegistered);
-        assertEquals(playerSave.getUsername(),newPlayerForm.getUsername(),"Era para executar todos os metodos de verificacao e salvar o jogador");
+       doReturn(playerToSave).when(playerRepositoryMock).save(playerToSave);
+       String passwordBeforeSaving = playerToSave.getPassword();
+
+       Player player = playerService.savePlayer(playerToSave);
+       verify(playerRepositoryMock).findByUsername(playerToSave.getUsername());
+       boolean passwordEncrypted = !passwordBeforeSaving.equals(player.getPassword());
+       boolean areTheSame = Objects.equals(playerToSave.getUsername(), player.getUsername());
+
+       assertTrue(areTheSame,"Os objetos eram para ser os mesmos");
+       assertTrue(passwordEncrypted,"Senha e para ter sido encriptada");
     }
 
     @Test
     @DisplayName("Deve lancar exception ao tentar salvar jogador que ja exista")
-    public void shouldNotSavePlayer() throws PlayerAlreadyExistException {
-        String nameNewPlayer = newPlayerForm.getUsername();
-        when(playerRepository.findByUsername(nameNewPlayer)).thenReturn(Optional.of(playerAlreadyRegistered));
+    public void shouldNotSavePlayer() {
+
+        String nameNewPlayer = playerToSave.getUsername();
+        when(playerRepositoryMock.findByUsername(nameNewPlayer)).thenReturn(Optional.of(playerToSave));
         PlayerAlreadyExistException ex  = assertThrows(PlayerAlreadyExistException.class,() ->
-                    when(playerService.savePlayer(newPlayerForm)).thenThrow(new PlayerAlreadyExistException())
+                    when(playerService.savePlayer(playerToSave)).thenThrow(new PlayerAlreadyExistException())
                 );
-        verify(playerRepository,times(0)).save(playerAlreadyRegistered);
+        verify(playerRepositoryMock,times(0)).save(playerToSave);
         assertEquals("Ja existe um jogador com esse username",ex.getMessage());
+
     }
 
 }
