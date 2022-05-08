@@ -33,7 +33,6 @@ public class PlayerControllerTest {
             "}";
 
     private static Player playerAlreadyRegistered;
-    private static NewPlayerForm newPlayerFormAlreadyExist;
 
     @BeforeAll
     private static void buildNewPlayer(){
@@ -42,16 +41,11 @@ public class PlayerControllerTest {
                 .password("123456")
                 .build();
 
-        newPlayerFormAlreadyExist = NewPlayerForm.builder()
-                .username("PlayerTest")
-                .password("123456")
-                .build();
-
     }
 
     @Test
     public void shouldReturn201WhenSaveNewPlayer() throws Exception {
-        when(playerService.savePlayer(any(NewPlayerForm.class))).thenReturn(playerAlreadyRegistered);
+        when(playerService.savePlayer(any(Player.class))).thenReturn(playerAlreadyRegistered);
         mockMvc.perform(post("/player")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonNewPlayerRegister)
@@ -64,7 +58,7 @@ public class PlayerControllerTest {
 
     @Test
     public void shouldReturn400WhenSavePlayerAlreadyExist()throws Exception{
-        when(playerService.savePlayer(newPlayerFormAlreadyExist)).thenThrow(new PlayerAlreadyExistException());
+        when(playerService.savePlayer(playerAlreadyRegistered)).thenThrow(new PlayerAlreadyExistException());
         mockMvc.perform(post("/player")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonNewPlayerRegister)

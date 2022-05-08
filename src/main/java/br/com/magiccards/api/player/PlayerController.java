@@ -34,7 +34,8 @@ public class PlayerController {
     public ResponseEntity<Player> registerNewPlayer(@ApiParam(value = "email e senha",required = true)
             @RequestBody @Valid NewPlayerForm  newPlayerForm) throws PlayerAlreadyExistException {
         try{
-             Player playerSave = playerService.savePlayer(newPlayerForm);
+             Player playerToSave = Player.builder().username(newPlayerForm.getUsername()).password(newPlayerForm.getPassword()).build();
+             Player playerSave = playerService.savePlayer(playerToSave);
             return ResponseEntity.status(HttpStatus.CREATED).body(playerSave);
         }catch (PlayerAlreadyExistException ex){
             throw new PlayerAlreadyExistException();
