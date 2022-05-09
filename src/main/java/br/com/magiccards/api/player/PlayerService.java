@@ -23,6 +23,7 @@ public class PlayerService {
         if(optionalPlayer.isPresent()){
             throw new PlayerAlreadyExistException();
         }
+
         String passwordEncoded = encodePassword(player.getPassword());
         player.setPassword(passwordEncoded);
         return playerRepository.save(player);
@@ -30,6 +31,10 @@ public class PlayerService {
 
     private String encodePassword(String password){
        return new BCryptPasswordEncoder().encode(password);
+    }
+
+    private Boolean decodePassword(String passwordEntered, String passwordSave){
+        return new BCryptPasswordEncoder().matches(passwordEntered,passwordSave);
     }
 
 
