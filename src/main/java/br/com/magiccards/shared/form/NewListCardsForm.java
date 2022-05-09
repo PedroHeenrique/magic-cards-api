@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
@@ -13,8 +16,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewListCardsForm {
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
+    @NotBlank
     private String listName;
-    private List<Card> lisCards;
+    @NotEmpty
+    private List<@Valid Card> lisCards;
 }
