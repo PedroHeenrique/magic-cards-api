@@ -2,6 +2,7 @@ package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.exception.player.PlayerAlreadyExistException;
+import br.com.magiccards.shared.exception.player.PlayerInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,24 @@ public class PlayerService {
         String passwordEncoded = encodePassword(player.getPassword());
         player.setPassword(passwordEncoded);
         return playerRepository.save(player);
+    }
+
+    public void isValidPlayer(Player player) throws PlayerInvalidException {
+        Optional<Player> optPlayer = findPlayer(player.getUsername());
+        String passwordEntered = player.getPassword();
+
+        if(optPlayer.isPresent()){
+           String passwordSave = optPlayer.get().getPassword();
+           if(decodePassword(passwordEntered,passwordSave)){
+               return;
+           }
+        }
+
+        throw new PlayerInvalidException();
+    }
+
+    public Optional<Player> findPlayer(String username){
+        return playerRepository.findByUsername(username);
     }
 
     private String encodePassword(String password){
