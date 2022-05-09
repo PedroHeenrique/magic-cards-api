@@ -31,7 +31,7 @@ public class CardsExceptionHandler{
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.forEach(erro -> {
             String mensagem = messageSource.getMessage(erro, LocaleContextHolder.getLocale());
-            ErroDto err = new ErroDto(erro.getField(),mensagem);
+            ErroDto err = new ErroDto(erro.getField(), "(valor informado="+erro.getRejectedValue()+" ) invalido! "+ mensagem);
             erros.add(err);
         });
         return erros;
