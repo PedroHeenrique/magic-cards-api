@@ -6,10 +6,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -26,11 +24,10 @@ public class Card implements Serializable {
     private Long idCard;
 
     private String name;
-    @Positive(message = "informe uma edição valida")
+    @Positive(message = "edição valida")
     private Integer edition;
-    @NotBlank(message = "informe a sigla de um idioma dentre essas 3 - PT(português) EN(inglês) JA(japonês)")
-    @Size(min = 2, max = 2, message = "idioma invalido considere uma sigla dentre as 3 - PT(português) EN(inglês) JA(japonês)")
-    @Pattern(regexp = "^[pP][tT]|[eE][nN]|[jJ][aA]$", message = "linguagem invalida considere uma sigla dentre as 3 - PT(português) EN(inglês) JA(japonês)")
+
+    @Pattern(regexp = "^[pP][tT]|[eE][nN]|[jJ][aA]$", message = "considere um idioma(sigla) dentre as tres - PT(português) EN(inglês) JA(japonês)")
     private String language;
     @Column(name = "is_foil")
     private Boolean isFoil;
@@ -63,6 +60,7 @@ public class Card implements Serializable {
     public String getLanguage() {
         return language;
     }
+
 
     public void setLanguage(String language) {
         this.language = language;
