@@ -2,6 +2,7 @@ package br.com.magiccards.api.listCards;
 
 
 import br.com.magiccards.shared.dto.ErroDto;
+import br.com.magiccards.shared.exception.player.PlayerInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -22,6 +23,12 @@ public class ListCardsExceptionHandler {
     @Autowired
     public ListCardsExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PlayerInvalidException.class)
+    public ErroDto playerInvalid(PlayerInvalidException ex){
+        return ErroDto.builder().erro(ex.getMessage()).campo("username ou password").build();
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
