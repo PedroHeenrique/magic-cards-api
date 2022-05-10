@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class SwaggerConfigurations {
     //http://localhost:8080/swagger-ui/index.html
     public static final String PLAYER_TAG = "Jogador";
+    public static final String LIST_CARDS = "Lista de cartas";
 
     @Bean
     public Docket api(){
@@ -28,7 +29,8 @@ public class SwaggerConfigurations {
                 .apis(RequestHandlerSelectors.basePackage("br.com.magiccards.api"))
                 .paths(PathSelectors.any())
                 .build()
-                .tags(new Tag(PLAYER_TAG,"End point para registro de novos jogadores"));
+                .tags(new Tag(PLAYER_TAG,"Registro de novos jogadores"),
+                        new Tag(LIST_CARDS,"Ações a serem realizadas sobre as listas de cartas"));
 
     }
 
