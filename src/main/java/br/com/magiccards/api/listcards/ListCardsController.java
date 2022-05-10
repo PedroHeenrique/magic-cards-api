@@ -1,4 +1,4 @@
-package br.com.magiccards.api.listCards;
+package br.com.magiccards.api.listcards;
 
 import br.com.magiccards.shared.domain.ListCards;
 import br.com.magiccards.shared.exception.player.PlayerInvalidException;
