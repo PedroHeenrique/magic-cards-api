@@ -51,14 +51,13 @@ public class PlayerServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lancar exception ao tentar salvar jogador que ja exista")
+    @DisplayName("Deve lançar exception ao tentar salvar jogador que ja exista")
     public void shouldNotSavePlayer() {
 
         String nameNewPlayer = playerToSave.getUsername();
         when(playerRepositoryMock.findByUsername(nameNewPlayer)).thenReturn(Optional.of(playerToSave));
         PlayerAlreadyExistException ex  = assertThrows(PlayerAlreadyExistException.class,() ->
-                    when(playerService.savePlayer(playerToSave)).thenThrow(new PlayerAlreadyExistException())
-                );
+                    when(playerService.savePlayer(playerToSave)).thenThrow(new PlayerAlreadyExistException()));
         verify(playerRepositoryMock,times(0)).save(playerToSave);
         assertEquals("Ja existe um jogador com esse username",ex.getMessage());
 
