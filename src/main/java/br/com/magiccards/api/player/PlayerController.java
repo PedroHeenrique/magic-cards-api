@@ -1,4 +1,5 @@
 package br.com.magiccards.api.player;
+
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.exception.player.PlayerAlreadyExistException;
 import br.com.magiccards.shared.form.NewPlayerForm;
@@ -27,7 +28,7 @@ public class PlayerController {
     @ApiOperation(value = "Registra um novo jogador")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Jogador registrado com sucesso"),
-            @ApiResponse(code = 400, message = "Valores inválido  ou jogador ja cadastrado"),
+            @ApiResponse(code = 400, message = "Valores inválidos ou jogador ja cadastrado"),
             @ApiResponse(code = 500, message = "Erro interno do servidor")
     })
     @PostMapping(consumes = "application/json",produces = "application/json")
