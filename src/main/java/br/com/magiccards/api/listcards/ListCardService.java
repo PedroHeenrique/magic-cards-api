@@ -2,14 +2,17 @@ package br.com.magiccards.api.listcards;
 
 import br.com.magiccards.api.player.PlayerService;
 import br.com.magiccards.shared.domain.Card;
-import br.com.magiccards.shared.domain.ListCards;
+import br.com.magiccards.shared.domain.ListCard;
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.exception.player.PlayerInvalidException;
-import br.com.magiccards.shared.form.NewListCardsForm;
+import br.com.magiccards.shared.form.NewListCardForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ListCardService {
@@ -23,26 +26,25 @@ public class ListCardService {
         this.playerService = playerService;
     }
 
-    public ListCards saveListCardPlayer(NewListCardsForm newListCardsForm) throws PlayerInvalidException {
-        Player playerParam = Player.builder().username(newListCardsForm.getUsername()).password(newListCardsForm.getPassword()).build();
-        ListCards listCards;
+    public ListCard saveListCardPlayer(NewListCardForm newListCardForm) throws PlayerInvalidException {
+        Player playerParam = Player.builder().username(newListCardForm.getUsername()).password(newListCardForm.getPassword()).build();
+        ListCard listCard;
 
         playerService.isValidPlayer(playerParam);
 
-        Optional<Player> playerOpt = playerService.findPlayer(playerParam.getUsername());
-        Player playerFound = playerOpt.get();
+        Player playerFound = playerService.findPlayer(playerParam.getUsername()).get();
 
-        listCards = ListCards.builder()
-                .listName(newListCardsForm.getListName())
+        listCard = ListCard.builder()
+                .listName(newListCardForm.getListName())
                 .player(playerFound)
                 .build();
 
-        Set<ListCards> setOfCardsPlayer = new HashSet<>();
-        setOfCardsPlayer.add(listCards);
+        Set<ListCard> setOfCardsPlayer = new HashSet<>();
+        setOfCardsPlayer.add(listCard);
         playerFound.setListCards(setOfCardsPlayer);
 
         List<Card> cards = new ArrayList<>();
-        for ( Card carta: newListCardsForm.getLisCards()){
+        for ( Card carta: newListCardForm.getListCards()){
             Card card = Card.builder().build();
             card.setName(carta.getName());
             card.setEdition(carta.getEdition());
@@ -50,13 +52,13 @@ public class ListCardService {
             card.setFoil(carta.getFoil());
             card.setPrice(carta.getPrice());
             card.setQuantityOfThisCard(carta.getQuantityOfThisCard());
-            card.setListCards(listCards);
+            card.setListCard(listCard);
             cards.add(card);
         }
-        listCards.setCards(cards);
-        listCardRepository.save(listCards);
+        listCard.setCards(cards);
+        listCardRepository.save(listCard);
 
 
-    return listCards;
+    return listCard;
     }
 }

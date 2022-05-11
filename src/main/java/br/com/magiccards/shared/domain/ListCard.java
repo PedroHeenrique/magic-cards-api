@@ -17,7 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Table(name = "list_cards")
 @JsonIgnoreProperties({"idListCard","player"})
-public class ListCards implements Serializable {
+public class ListCard implements Serializable {
 
     private static final long serialVersionUID = -1798070786793154676L;
     @Id
@@ -29,7 +29,7 @@ public class ListCards implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_player", nullable = false)
     private Player player;
-    @OneToMany(mappedBy = "listCards", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "listCard", cascade = CascadeType.ALL)
     private List<Card> cards = new ArrayList<>();
 
     public Long getIdListCard() {
@@ -68,8 +68,8 @@ public class ListCards implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListCards listCards = (ListCards) o;
-        return Objects.equals(getIdListCard(), listCards.getIdListCard()) && Objects.equals(getListName(), listCards.getListName()) && Objects.equals(getPlayer(), listCards.getPlayer()) && Objects.equals(getCards(), listCards.getCards());
+        ListCard listCard = (ListCard) o;
+        return Objects.equals(getIdListCard(), listCard.getIdListCard()) && Objects.equals(getListName(), listCard.getListName()) && Objects.equals(getPlayer(), listCard.getPlayer()) && Objects.equals(getCards(), listCard.getCards());
     }
 
     @Override

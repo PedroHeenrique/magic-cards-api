@@ -1,7 +1,7 @@
 package br.com.magiccards.api.listcards;
 
-import br.com.magiccards.shared.domain.ListCards;
-import br.com.magiccards.shared.form.NewListCardsForm;
+import br.com.magiccards.shared.domain.ListCard;
+import br.com.magiccards.shared.form.NewListCardForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ListCardsControllerTest {
+public class ListCardControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class ListCardsControllerTest {
             "    \"username\": \"teste\",\n" +
             "    \"password\": \"454556\",\n" +
             "    \"listName\": \"WarriorsCards\"," +
-            "    \"lisCards\": [\n" +
+            "    \"listCards\": [\n" +
             "        {\n" +
             "            \"name\": \"Pantheon\"," +
             "            \"edition\": 1,\n" +
@@ -75,20 +75,20 @@ public class ListCardsControllerTest {
             "        }\n" +
             "    ]\n" +
             "}";
-    private static NewListCardsForm listCardsForm;
-    private static ListCards listCardReturn;
+    private static NewListCardForm listCardsForm;
+    private static ListCard listCardReturn;
 
     @BeforeAll
     public static void buildListCard() throws JsonProcessingException {
-        listCardsForm = new ObjectMapper().readerFor(NewListCardsForm.class).readValue(jsonNewListCardRegister);
-        listCardReturn = new ObjectMapper().readerFor(ListCards.class).readValue(jsonListCardSaveReturn);
+        listCardsForm = new ObjectMapper().readerFor(NewListCardForm.class).readValue(jsonNewListCardRegister);
+        listCardReturn = new ObjectMapper().readerFor(ListCard.class).readValue(jsonListCardSaveReturn);
     }
 
     @Test
     @DisplayName("Deve salvar lista de cartas de um jogador valido")
     public void shouldReturn201WhenSaveLisCards()throws Exception {
        when(listCardService.saveListCardPlayer(listCardsForm)).thenReturn(listCardReturn);
-       mockMvc.perform(post("/list-card")
+       mockMvc.perform(post("/list-cards")
                .contentType(MediaType.APPLICATION_JSON)
                .content(jsonNewListCardRegister)
                .accept(MediaType.APPLICATION_JSON))
@@ -102,6 +102,17 @@ public class ListCardsControllerTest {
                .andExpect(jsonPath("$.cards[1].language").value("en"))
                .andExpect(jsonPath("$.cards[1].foil").value(false));
 
+    }
+
+    @Test
+    @DisplayName("Deve gerar erro por ser informado um json invalido")
+    public void shouldReturn400WhenSaveListCardsWithInvalidProperties() throws Exception {
+        mockMvc.perform(post("/list-cards")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(invalidLanguageJsonNewListCard)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
 

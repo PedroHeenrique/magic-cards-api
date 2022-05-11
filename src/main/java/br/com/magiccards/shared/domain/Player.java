@@ -33,7 +33,7 @@ public class Player implements Serializable {
 
     @Column(name = "id_list_card")
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
-    private Set<ListCards> listCard;
+    private Set<ListCard> listCard;
 
     public Long getIdPlayer() {
         return idPlayer;
@@ -59,11 +59,11 @@ public class Player implements Serializable {
         this.password = password;
     }
 
-    public Set<ListCards> getListCards() {
+    public Set<ListCard> getListCards() {
         return listCard;
     }
 
-    public void setListCards(Set<ListCards> listCards) {
+    public void setListCards(Set<ListCard> listCards) {
         this.listCard = listCards;
     }
 

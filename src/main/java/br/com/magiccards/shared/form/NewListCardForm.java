@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewListCardsForm {
+public class NewListCardForm {
     @NotBlank
     private String username;
     @NotBlank
@@ -23,5 +23,5 @@ public class NewListCardsForm {
     @NotBlank
     private String listName;
     @NotEmpty
-    private List<@Valid Card> lisCards;
+    private List<@Valid Card> listCards;
 }
