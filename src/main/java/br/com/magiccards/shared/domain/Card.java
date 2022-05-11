@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class Card implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCard;
 
+    @NotBlank
     private String name;
     @Positive(message = "edição valida")
     private Integer edition;
@@ -39,7 +41,7 @@ public class Card implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_list_card", nullable = false)
-    private ListCards listCards;
+    private ListCard listCard;
 
     public String getName() {
         return name;
@@ -90,12 +92,12 @@ public class Card implements Serializable {
         this.quantityOfThisCard = quantityOfThisCard;
     }
 
-    public ListCards getListCards() {
-        return listCards;
+    public ListCard getListCard() {
+        return listCard;
     }
 
-    public void setListCards(ListCards listCards) {
-        this.listCards = listCards;
+    public void setListCard(ListCard listCard) {
+        this.listCard = listCard;
     }
 
     @Override
