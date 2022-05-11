@@ -28,6 +28,31 @@ public class ListCardControllerTest {
     @MockBean
     private ListCardService listCardService;
 
+    private static final String invalidLanguageJsonNewListCard =
+            "{\n" +
+            "    \"username\": \"teste\",\n" +
+            "    \"password\": \"123456\",\n" +
+            "    \"listName\": \"WarriorsCards\",\n" +
+            "    \"listCards\": [\n" +
+            "        {\n" +
+            "            \"name\": \"Pantheon\",\n" +
+            "            \"edition\": 1,\n" +
+            "            \"language\": \"fr\",\n" +
+            "            \"price\": 85.0,\n" +
+            "            \"quantityOfThisCard\": 1,\n" +
+            "            \"foil\": true\n" +
+            "        },\n" +
+            "        {\n" +
+            "            \"name\": \"Garen\",\n" +
+            "            \"edition\": 1,\n" +
+            "            \"language\": \"ca\",\n" +
+            "            \"price\": 45.0,\n" +
+            "            \"quantityOfThisCard\": 1,\n" +
+            "            \"foil\": false\n" +
+            "        }\n" +
+            "    ]\n" +
+            "}";
+
     private static final String jsonNewListCardRegister =
             "{\n" +
             "    \"username\": \"teste\",\n" +
