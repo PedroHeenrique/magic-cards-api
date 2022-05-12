@@ -5,7 +5,7 @@ import br.com.magiccards.shared.domain.Card;
 import br.com.magiccards.shared.domain.ListCard;
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.exception.player.PlayerInvalidException;
-import br.com.magiccards.shared.form.NewListCardForm;
+import br.com.magiccards.shared.form.ListCardForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +26,8 @@ public class ListCardService {
         this.playerService = playerService;
     }
 
-    public ListCard saveListCardPlayer(NewListCardForm newListCardForm) throws PlayerInvalidException {
-        Player playerParam = Player.builder().username(newListCardForm.getUsername()).password(newListCardForm.getPassword()).build();
+    public ListCard saveListCardPlayer(ListCardForm listCardForm) throws PlayerInvalidException {
+        Player playerParam = Player.builder().username(listCardForm.getUsername()).password(listCardForm.getPassword()).build();
         ListCard listCard;
 
         playerService.isValidPlayer(playerParam);
@@ -35,7 +35,7 @@ public class ListCardService {
         Player playerFound = playerService.findPlayer(playerParam.getUsername()).get();
 
         listCard = ListCard.builder()
-                .listName(newListCardForm.getListName())
+                .listName(listCardForm.getListName())
                 .player(playerFound)
                 .build();
 
@@ -44,7 +44,7 @@ public class ListCardService {
         playerFound.setListCards(setOfCardsPlayer);
 
         List<Card> cards = new ArrayList<>();
-        for ( Card carta: newListCardForm.getListCards()){
+        for ( Card carta: listCardForm.getListCards()){
             Card card = Card.builder().build();
             card.setName(carta.getName());
             card.setEdition(carta.getEdition());

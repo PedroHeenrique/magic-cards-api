@@ -2,7 +2,8 @@ package br.com.magiccards.api.listcards;
 
 import br.com.magiccards.shared.domain.ListCard;
 import br.com.magiccards.shared.exception.player.PlayerInvalidException;
-import br.com.magiccards.shared.form.NewListCardForm;
+import br.com.magiccards.shared.form.ListCardForm;
+import br.com.magiccards.shared.form.PlayerForm;
 import br.com.magiccards.shared.swagger.SwaggerConfigurations;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

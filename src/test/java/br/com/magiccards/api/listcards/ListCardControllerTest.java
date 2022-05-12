@@ -1,7 +1,7 @@
 package br.com.magiccards.api.listcards;
 
 import br.com.magiccards.shared.domain.ListCard;
-import br.com.magiccards.shared.form.NewListCardForm;
+import br.com.magiccards.shared.form.ListCardForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
@@ -100,12 +100,12 @@ public class ListCardControllerTest {
             "        }\n" +
             "    ]\n" +
             "}";
-    private static NewListCardForm listCardsForm;
+    private static ListCardForm listCardsForm;
     private static ListCard listCardReturn;
 
     @BeforeAll
     public static void buildListCard() throws JsonProcessingException {
-        listCardsForm = new ObjectMapper().readerFor(NewListCardForm.class).readValue(jsonNewListCardRegister);
+        listCardsForm = new ObjectMapper().readerFor(ListCardForm.class).readValue(jsonNewListCardRegister);
         listCardReturn = new ObjectMapper().readerFor(ListCard.class).readValue(jsonListCardSaveReturn);
     }
 

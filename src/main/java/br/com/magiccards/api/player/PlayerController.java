@@ -2,7 +2,7 @@ package br.com.magiccards.api.player;
 
 import br.com.magiccards.shared.domain.Player;
 import br.com.magiccards.shared.exception.player.PlayerAlreadyExistException;
-import br.com.magiccards.shared.form.NewPlayerForm;
+import br.com.magiccards.shared.form.PlayerForm;
 import br.com.magiccards.shared.swagger.SwaggerConfigurations;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +33,9 @@ public class PlayerController {
     })
     @PostMapping(consumes = "application/json",produces = "application/json")
     public ResponseEntity<Player> registerNewPlayer(@ApiParam(value = "email e senha",required = true)
-            @RequestBody @Valid NewPlayerForm  newPlayerForm) throws PlayerAlreadyExistException {
+            @RequestBody @Valid PlayerForm playerForm) throws PlayerAlreadyExistException {
 
-             Player playerToSave = Player.builder().username(newPlayerForm.getUsername()).password(newPlayerForm.getPassword()).build();
+             Player playerToSave = Player.builder().username(playerForm.getUsername()).password(playerForm.getPassword()).build();
              Player playerSave = playerService.savePlayer(playerToSave);
             return ResponseEntity.status(HttpStatus.CREATED).body(playerSave);
     }
