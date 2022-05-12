@@ -4,6 +4,7 @@ import br.com.magiccards.api.player.PlayerService;
 import br.com.magiccards.shared.domain.Card;
 import br.com.magiccards.shared.domain.ListCard;
 import br.com.magiccards.shared.domain.Player;
+import br.com.magiccards.shared.exception.listcards.ListCardNotFoundException;
 import br.com.magiccards.shared.exception.player.PlayerInvalidException;
 import br.com.magiccards.shared.form.ListCardForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,24 @@ public class ListCardService {
 
 
     return listCard;
+    }
+
+    public ListCard getListCardsPlayer(Player player, String listName)throws PlayerInvalidException, ListCardNotFoundException {
+        playerService.isValidPlayer(player);
+        Set<ListCard> setCards = playerService.findPlayer(player.getUsername()).get().getListCards();
+
+        return setCards.stream()
+                .filter(obj -> obj.getListName().equals(listName))
+                .findFirst().orElseThrow(() -> new ListCardNotFoundException(listName));
+
+    }
+
+    public List<ListCardNameView> getAllNamesListCards(Player player) throws ListCardNotFoundException {
+        List<ListCardNameView> listCards = listCardRepository.findByPlayer_IdPlayer(player.getIdPlayer());
+        if(listCards.isEmpty()){
+            throw new ListCardNotFoundException("");
+        }
+        return  listCards;
+
     }
 }
