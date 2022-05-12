@@ -2,6 +2,7 @@ package br.com.magiccards.api.listcards;
 
 
 import br.com.magiccards.shared.dto.ErroDto;
+import br.com.magiccards.shared.exception.listcards.ListCardNotFoundException;
 import br.com.magiccards.shared.exception.player.PlayerInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -28,7 +29,13 @@ public class ListCardsExceptionHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(PlayerInvalidException.class)
     public ErroDto playerInvalid(PlayerInvalidException ex){
-        return ErroDto.builder().erro(ex.getMessage()).campo("username ou password").build();
+        return ErroDto.builder().erro(ex.getMessage()).campo(" ").build();
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ListCardNotFoundException.class)
+    public ErroDto listCardNotFound(ListCardNotFoundException ex){
+        return ErroDto.builder().erro(ex.getMessage()).campo("").build();
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
