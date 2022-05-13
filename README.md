@@ -20,12 +20,12 @@ cartas quando desejam vender ou trocar suas cartas.
 Dito isto essa api tem como proprosito cadastrar novos jogadores e permitir os mesmso criarem suas listas de cartas e gerencia-las.
 
 # Tecnologias utilizadas
-## Back end
 - Java
 - Spring Boot
 - JPA / Hibernate
 - Junit
 - Mockito
+- Swagger
 - Maven
 - Banco de dados H2
 
