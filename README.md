@@ -1,4 +1,4 @@
-#Magic cards API
+# Magic cards API
 
 # Sobre o projeto
 
