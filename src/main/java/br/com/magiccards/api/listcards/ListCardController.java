@@ -46,7 +46,7 @@ public class ListCardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(listCardCreated);
     }
 
-    @ApiOperation(value ="Obter lista de cartas de um jogador")
+    @ApiOperation(value ="Obter uma lista de cartas especifica de um jogador")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Lista obtida com sucesso"),
             @ApiResponse(code = 400, message = "valores informados inválidos" ),
@@ -58,7 +58,13 @@ public class ListCardController {
         ListCard listCards = listCardService.getListCardsPlayer(player, listName);
         return ResponseEntity.status(HttpStatus.OK).body(listCards);
     }
-    
+
+    @ApiOperation(value ="Obter nomes das listas de cartas de um jogador")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Listas obtidas com sucesso"),
+            @ApiResponse(code = 400, message = "valores informados inválidos"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
     @GetMapping("/me")
     public List<ListCardNameView> getMeListCardsName(@RequestBody @Valid PlayerForm playerForm) throws ListCardNotFoundException {
         Player playerParam = playerService.findPlayer(playerForm.getUsername()).get();
