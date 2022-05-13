@@ -1,5 +1,6 @@
 package br.com.magiccards.shared.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +42,7 @@ public class Card implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_list_card", nullable = false)
+    @JsonIgnore
     private ListCard listCard;
 
     public String getName() {
