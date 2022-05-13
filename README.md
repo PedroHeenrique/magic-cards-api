@@ -29,8 +29,8 @@ Dito isto essa api tem como proprosito cadastrar novos jogadores e permitir os m
 - Maven
 - Banco de dados H2
 
-#Como Utilizar
-No momento o mesma ainda nao se encontra em nenhuma plataforma cloud. Para utilizar clone a branch feature/salvar-lista-cartas e rode localmente para 
+# Como Utilizar
+No momento não se encontra em nenhuma plataforma cloud. Para utilizar clone a branch feature/salvar-lista-cartas e rode localmente para 
 ter acesso a documentacao swagger utilizando o link (http://localhost:8080/swagger-ui/index.html).
 
 Novas atualizações e melhorias em breve!!!!!
